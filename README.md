@@ -13,7 +13,7 @@ Marta Paczkowska^, Jonathan Barenboim^, Nardnisa Sintupisut, Natalie S. Fox, Hel
 https://www.nature.com/articles/s41467-019-13983-9
 https://www.ncbi.nlm.nih.gov/pubmed/32024846 
 
-https://github.com/MSlobody/APW2_tutorial/blob/main/lineplot_tutorial.jpeg
+![](https://github.com/MSlobody/APW2_tutorial/blob/main/lineplot_tutorial.jpeg)
 
 ## Installation
 
