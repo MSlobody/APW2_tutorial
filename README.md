@@ -1,19 +1,15 @@
-# APW2_tutorial
-
 # ActivePathways
 
-**December 05 2022: ActivePathways will soon be updated to version 2.0.0. This update provides additional functionality to p-value merging, allowing for directional information between datasets to be incorporated.**
+**DATE TBD 2023: ActivePathways has now been updated to version 2.0.0. This update provides additional functionality to p-value merging, allowing for directional information between datasets to be incorporated.**
 
 
-ActivePathways is a tool for multivariate pathway enrichment analysis. Pathway enrichment analysis identifies gene sets, such as pathways or Gene Ontology terms, that are over-represented in a list of genes of interest. ActivePathways uses a data fusion method to combine multiple omics datasets, prioritizes genes based on the significance of signals from the omics datasets, and performs pathway enrichment analysis of these prioritized genes. Using this strategy, we can find pathways and genes supported by single or multiple omics datasets, as well as additional genes and pathways that are only apparent through data integration and remain undetected in any single dataset alone. 
+ActivePathways is a tool for multivariate pathway enrichment analysis. Pathway enrichment analysis identifies gene sets, such as pathways or Gene Ontology terms, that are over-represented in a list of genes of interest. ActivePathways uses a data fusion method to combine multiple omics datasets, prioritizes genes based on the significance and direction of signals from the omics datasets, and performs pathway enrichment analysis of these prioritized genes. Using this strategy, we can find pathways and genes supported by single or multiple omics datasets, as well as additional genes and pathways that are only apparent through data integration and remain undetected in any single dataset alone. 
 
 ActivePathways is published in Nature Communications with the PCAWG Pan-Cancer project. 
 
 Marta Paczkowska^, Jonathan Barenboim^, Nardnisa Sintupisut, Natalie S. Fox, Helen Zhu, Diala Abd-Rabbo, Miles W. Mee, Paul C. Boutros, PCAWG Drivers and Functional Interpretation Working Group, Jüri Reimand & PCAWG Consortium. Integrative pathway enrichment analysis of multivariate omics data. *Nature Communications* 11 735 (2020) (^ - co-first authors)
 https://www.nature.com/articles/s41467-019-13983-9
 https://www.ncbi.nlm.nih.gov/pubmed/32024846 
-
-![](https://github.com/MSlobody/APW2_tutorial/blob/main/lineplot_tutorial.jpeg)
 
 ## Installation
 
@@ -155,23 +151,26 @@ readLines(fname_GMT)[11:13]
 ```
 
 ### Examples - Incorporating directionality
-Transcripts significantly up-regulated in an experiment would be expected to have the same proteins significantly up-regulated (i.e., a match in directionality). In contrast, significantly up-regulated transcripts coinciding with down-regulated proteins would have mismatches in directionality and undergo statistical penalties. 
+In ActivePathways 2.0, we extend our computational framework to account for directional activities of genes and proteins across the input omics datasets. For example, fold-change in protein expression would be expected to associate positively with mRNA change of the corresponding gene. We extend our method to encode such directional interactions and penalize genes and proteins where such assumptions are violated.
 
 The scores_direction and expected_direction parameters are provided in the merge_p_values() and ActivePathways() functions to incorporate this directional penalty into the data fusion and pathway enrichment analyses. Using the expected_direction parameter we can encode our expected relationship between different datasets, and scores_direction would reflect the log2 fold-change values of each gene.
+
+## Gene-level insight
 
 ```R 
 
 df <- read.table(system.file('extdata', 'Differential_expression_rna_protein.tsv',
                  package = 'ActivePathways'), header = TRUE,row.names = "gene", sep = '\t')
 
-df[c('TPRG1','KHNYN','PLA2G7','DCLK1','RALGAPA1'),]
+df[c('ACTN4','PIK3R4','PPIL1','NELFE','LUZP1','ITGB2'),]
 
-#         rna_pval       rna_log2fc      protein_pval     protein_log2fc
-#TPRG1    0.000450743	 1.6928244	 0.015971771	  0.6052608
-#KHNYN    0.002995212	 1.1425171	 0.005479684	 -1.0174321
-#PLA2G7   0.025666212	-1.1803979	 0.000980713	  1.4458352
-#DCLK1    0.002421783	-1.0383075	 0.015971771     -1.1279115
-#RALGAPA1 0.015971771	 0.3079624	 0.002995212	  1.1382782
+#       rna_pval        rna_log2fc   protein_pval     protein_log2fc
+#ACTN4  5.725503e-05    1.5531533    8.238317e-07      1.4279158
+#PIK3R4 1.266285e-03    1.1557077    2.791135e-03     -0.8344799
+#PPIL1  1.276838e-03   -1.1694221    1.199303e-04     -1.1193605
+#NELFE  1.447553e-02   -0.9120687    1.615592e-05     -1.2630114
+#LUZP1  3.253382e-05    1.5830796    4.129125e-02      0.5791377
+#ITGB2  4.584450e-05    1.6472117    1.327997e-01      0.4221579
 
 scores <- data.frame(row.names = rownames(df), rna = df[,1], protein = df[,3])
 scores <- as.matrix(scores)
@@ -187,21 +186,58 @@ scores_direction[is.na(scores_direction)] <- 1
 expected_direction <- c(1,1)
 
 # The top 5 scoring genes differ if we penalize genes where this directional logic is violated.
-# Using Stouffer's method the genes, KHNYN and PLA2G7 are penalized, whilst TPRG1 retains its
-# significance. Interestingly, as a consequence of penalizing these two genes, other genes
-# move up in rank (DCLK1, RALGAPA1, NOP9 and SCRN1 for example).  
+# Using Brown's method the gene PIK3R4 is penalized, whilst the others retain
+# significance. Interestingly, as a consequence of penalizing PIK3R4, other genes such as ITGB2
+# move up in rank.  
 
-sort(merge_p_values(scores, 'Stouffer'))[1:5]
+brown_merged <- merge_p_values(scores,"Brown")
+browndir_merged <- merge_p_values(scores,"Brown",scores_direction,expected_direction)
 
-# TPRG1        KHNYN        PLA2G7       DCLK1        RALGAPA1 
-# 2.855959e-05 4.849415e-05 9.293250e-05 1.188756e-04 1.431444e-04 
+sort(brown_merged)[1:5]
 
-sort(merge_p_values(scores, 'Stouffer',scores_direction, expected_direction))[1:5]
+#       ACTN4        PPIL1        NELFE        LUZP1       PIK3R4 
+#1.168708e-09 2.556067e-06 3.804646e-06 1.950607e-05 4.790125e-05 
 
-# TPRG1        DCLK1        RALGAPA1     NOP9         SCRN1 
-# 2.855959e-05 1.188756e-04 1.431444e-04 1.472363e-04 1.671520e-04 
+
+sort(browndir_merged)[1:5]
+
+#       ACTN4        PPIL1        NELFE        LUZP1        ITGB2 
+#1.168708e-09 2.556067e-06 3.804646e-06 1.950607e-05 7.920157e-05 
+
+# To assess the impact of the directional penalty on gene merged P-value signals we create a 
+# plot showing directional results on the y axis and non-directional results on the x.
+# Green dots are prioritized hits, red dots are penalized. 
+
+signal_change_plot(brown_merged,browndir_merged)
 
 ```
+![](https://github.com/MSlobody/APW2_tutorial/blob/main/lineplot_tutorial.jpeg)
+
+## Pathway-level insight
+To explore the impact of these gene-level changes on the biological pathways they influence, we compare our results with and without a directional penalty.
+
+```R 
+
+fname_GMT2 <- system.file("extdata", "hsapiens_REAC_subset2.gmt", package = "ActivePathways")
+
+# Package default: no directionality
+
+res_brown <- ActivePathways(scores, merge_method = "Brown", gmt = fname_GMT,cytoscape_file_tag = "Original_")
+
+# Added feature: incorporating directionality
+
+res_browndir <- ActivePathways(scores, merge_method = "Brown", gmt = fname_GMT, cytoscape_file_tag = "Directional_",
+                               scores_direction = scores_direction, expected_direction = expected_direction)
+                               
+# To compare the changes in biological pathways before and after incorporating directionality, 
+# we combine both outputs into a single enrichment map for plotting.
+
+combining_pathways(res_brown, res_browndir)  
+
+                               
+```
+# incorporate embedded link that will jump to cytoscape tutorial with borders
+
 
 More thorough documentation of the ActivePathways function can be found in R with `?ActivePathways`, and complete tutorials can be found with `browseVignettes(package='ActivePathways')`.
 
@@ -273,6 +309,8 @@ To allow better interpretation of the enrichment map, `ActivePathways` generates
 
 Note that one of the colors corresponds to a subset of enriched pathways with *combined* evidence that were only detected through data fusion and P-value merging and not when any of the input datasets were detected separately. This exemplifies the added value of integrative multi-omics pathway enrichment analysis. 
 
+# update with borders for directional impact ######################################
+
 ## Alternative node coloring
 
 For a more diverse range of colors, ActivePathways supports any color palette from RColorBrewer. The color_palette parameter must be provided.
@@ -299,6 +337,3 @@ Tip: if the coloring of nodes did not work in Cytoscape after setting the option
 * Integrative Pathway Enrichment Analysis of Multivariate Omics Data. Paczkowska M, Barenboim J, Sintupisut N, Fox NS, Zhu H, Abd-Rabbo D, Mee MW, Boutros PC, PCAWG Drivers and Functional Interpretation Working Group; Reimand J, PCAWG Consortium. Nature Communications (2020) <https://pubmed.ncbi.nlm.nih.gov/32024846/> <https://doi.org/10.1038/s41467-019-13983-9>.
 
 * Pathway Enrichment Analysis and Visualization of Omics Data Using g:Profiler, GSEA, Cytoscape and EnrichmentMap. Reimand J, Isserlin R, Voisin V, Kucera M, Tannus-Lopes C, Rostamianfar A, Wadi L, Meyer M, Wong J, Xu C, Merico D, Bader GD. Nature Protocols (2019) <https://pubmed.ncbi.nlm.nih.gov/30664679/> <https://doi.org/10.1038/s41596-018-0103-9>.
-
-
-
