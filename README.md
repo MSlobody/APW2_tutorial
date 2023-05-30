@@ -230,7 +230,7 @@ res_browndir <- ActivePathways(scores, merge_method = "Brown", gmt = fname_GMT, 
                                scores_direction = scores_direction, expected_direction = expected_direction)
                                                             
 ```
-To compare the changes in biological pathways before and after incorporating directionality, we combine both outputs into a single enrichment map for [plotting](#Visualizing directional impact with node borders).
+To compare the changes in biological pathways before and after incorporating directionality, we combine both outputs into a single enrichment map for [plotting](#visualizing-directional-impact-with-node-borders).
 
 More thorough documentation of the ActivePathways function can be found in R with `?ActivePathways`, and complete tutorials can be found with `browseVignettes(package='ActivePathways')`.
 
