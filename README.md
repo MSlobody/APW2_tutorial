@@ -228,16 +228,9 @@ res_brown <- ActivePathways(scores, merge_method = "Brown", gmt = fname_GMT,cyto
 
 res_browndir <- ActivePathways(scores, merge_method = "Brown", gmt = fname_GMT, cytoscape_file_tag = "Directional_",
                                scores_direction = scores_direction, expected_direction = expected_direction)
-                               
-# To compare the changes in biological pathways before and after incorporating directionality, 
-# we combine both outputs into a single enrichment map for plotting.
-
-combining_pathways(res_brown, res_browndir)  
-
-                               
+                                                            
 ```
-# incorporate embedded link that will jump to cytoscape tutorial with borders
-
+To compare the changes in biological pathways before and after incorporating directionality, we combine both outputs into a single enrichment map for [plotting](## Visualizing directional impact with node borders).
 
 More thorough documentation of the ActivePathways function can be found in R with `?ActivePathways`, and complete tutorials can be found with `browseVignettes(package='ActivePathways')`.
 
@@ -309,7 +302,17 @@ To allow better interpretation of the enrichment map, `ActivePathways` generates
 
 Note that one of the colors corresponds to a subset of enriched pathways with *combined* evidence that were only detected through data fusion and P-value merging and not when any of the input datasets were detected separately. This exemplifies the added value of integrative multi-omics pathway enrichment analysis. 
 
-# update with borders for directional impact ######################################
+## Visualizing directional impact with node borders
+
+From the drop-down Properties menu, select *Border Line Type*.
+![](https://github.com/MSlobody/APW2_tutorial/blob/main/border_line_type.jpeg)
+
+Set *Column* to *directional impact* and *Mapping Type* to *Discrete Mapping*. To compare findings between a non-directional and a directional method, we highlight shared (0), lost (1), and gained (2) pathways between the approaches. Here, we have solid lines for the shared pathways, dots for the lost pathways, and vertical lines for the gained pathways. Border widths can be adjusted in the *Border Width* property, again with discrete mapping.
+![](https://github.com/MSlobody/APW2_tutorial/blob/main/set_aesthetic.jpeg)
+
+This step changes node borders in the aggregated enrichment map, depicting the additional information provided by directional impact.
+![](https://github.com/MSlobody/APW2_tutorial/blob/main/new_map.png)
+![](https://github.com/MSlobody/APW2_tutorial/blob/main/legend_sized.png)
 
 ## Alternative node coloring
 
