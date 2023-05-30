@@ -204,13 +204,8 @@ sort(browndir_merged)[1:5]
 #       ACTN4        PPIL1        NELFE        LUZP1        ITGB2 
 #1.168708e-09 2.556067e-06 3.804646e-06 1.950607e-05 7.920157e-05 
 
-# To assess the impact of the directional penalty on gene merged P-value signals we create a 
-# plot showing directional results on the y axis and non-directional results on the x.
-# Green dots are prioritized hits, red dots are penalized. 
-
-signal_change_plot(brown_merged,browndir_merged)
-
 ```
+To assess the impact of the directional penalty on gene merged P-value signals we create a plot showing directional results on the y axis and non-directional results on the x. Green dots are prioritized hits, red dots are penalized. 
 ![](https://github.com/MSlobody/APW2_tutorial/blob/main/lineplot_tutorial.jpeg)
 
 ## Pathway-level insight
