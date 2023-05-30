@@ -314,8 +314,7 @@ Set *Column* to *directional impact* and *Mapping Type* to *Discrete Mapping*. T
 
 This step changes node borders in the aggregated enrichment map, depicting the additional information provided by directional impact.
 
-<img src="https://github.com/MSlobody/APW2_tutorial/blob/main/new_map.png" width="500" />
-<img src="https://github.com/MSlobody/APW2_tutorial/blob/main/legend_sized.png" width="100" />
+<img src="https://github.com/MSlobody/APW2_tutorial/blob/main/new_map.png" width="700" /> <img src="https://github.com/MSlobody/APW2_tutorial/blob/main/legend_sized.png" width="100" />
 
 ## Alternative node coloring
 
