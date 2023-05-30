@@ -172,9 +172,9 @@ df[c('ACTN4','PIK3R4','PPIL1','NELFE','LUZP1','ITGB2'),]
 #LUZP1  3.253382e-05    1.5830796    4.129125e-02      0.5791377
 #ITGB2  4.584450e-05    1.6472117    1.327997e-01      0.4221579
 
-scores <- data.frame(row.names = rownames(df), rna = df[,1], protein = df[,3])
-scores <- as.matrix(scores)
-scores[is.na(scores)] <- 1
+scores3 <- data.frame(row.names = rownames(df), rna = df[,1], protein = df[,3])
+scores3 <- as.matrix(scores3)
+scores3[is.na(scores3)] <- 1
 
 # A numerical matrix of log2 fold-changes values is required as input
 scores_direction <- data.frame(row.names = rownames(df), rna = df[,2], protein = df[,4])
@@ -190,8 +190,8 @@ expected_direction <- c(1,1)
 # significance. Interestingly, as a consequence of penalizing PIK3R4, other genes such as ITGB2
 # move up in rank.  
 
-brown_merged <- merge_p_values(scores,"Brown")
-browndir_merged <- merge_p_values(scores,"Brown",scores_direction,expected_direction)
+brown_merged <- merge_p_values(scores3,"Brown")
+browndir_merged <- merge_p_values(scores3,"Brown",scores_direction,expected_direction)
 
 sort(brown_merged)[1:5]
 
