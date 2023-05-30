@@ -155,7 +155,7 @@ In ActivePathways 2.0, we extend our computational framework to account for dire
 
 The scores_direction and expected_direction parameters are provided in the merge_p_values() and ActivePathways() functions to incorporate this directional penalty into the data fusion and pathway enrichment analyses. Using the expected_direction parameter we can encode our expected relationship between different datasets, and scores_direction would reflect the log2 fold-change values of each gene.
 
-## Gene-level insight
+#### Gene-level insight
 
 ```R 
 
@@ -209,7 +209,7 @@ To assess the impact of the directional penalty on gene merged P-value signals w
 
 <img src="https://github.com/MSlobody/APW2_tutorial/blob/main/lineplot_tutorial.jpeg" width="300" /> 
 
-## Pathway-level insight
+#### Pathway-level insight
 To explore the impact of these gene-level changes on the biological pathways they influence, we compare our results with and without a directional penalty.
 
 ```R 
