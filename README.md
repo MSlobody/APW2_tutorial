@@ -305,10 +305,10 @@ Note that one of the colors corresponds to a subset of enriched pathways with *c
 ## Visualizing directional impact with node borders
 
 From the drop-down Properties menu, select *Border Line Type*.
-![](https://github.com/MSlobody/APW2_tutorial/blob/main/border_line_type.jpeg)
+![](https://github.com/MSlobody/APW2_tutorial/blob/main/border_line_type.jpg)
 
 Set *Column* to *directional impact* and *Mapping Type* to *Discrete Mapping*. To compare findings between a non-directional and a directional method, we highlight shared (0), lost (1), and gained (2) pathways between the approaches. Here, we have solid lines for the shared pathways, dots for the lost pathways, and vertical lines for the gained pathways. Border widths can be adjusted in the *Border Width* property, again with discrete mapping.
-![](https://github.com/MSlobody/APW2_tutorial/blob/main/set_aesthetic.jpeg)
+![](https://github.com/MSlobody/APW2_tutorial/blob/main/set_aesthetic.jpg)
 
 This step changes node borders in the aggregated enrichment map, depicting the additional information provided by directional impact.
 ![](https://github.com/MSlobody/APW2_tutorial/blob/main/new_map.png)
