@@ -158,7 +158,6 @@ The scores_direction and expected_direction parameters are provided in the merge
 #### Gene-level insight
 
 ```R 
-
 df <- read.table(system.file('extdata', 'Differential_expression_rna_protein.tsv',
                  package = 'ActivePathways'), header = TRUE,row.names = "gene", sep = '\t')
 
@@ -189,21 +188,17 @@ expected_direction <- c(1,1)
 # Using Brown's method the gene PIK3R4 is penalized, whilst the others retain
 # significance. Interestingly, as a consequence of penalizing PIK3R4, other genes such as ITGB2
 # move up in rank.  
-
 brown_merged <- merge_p_values(scores3,"Brown")
 browndir_merged <- merge_p_values(scores3,"Brown",scores_direction,expected_direction)
 
 sort(brown_merged)[1:5]
-
 #       ACTN4        PPIL1        NELFE        LUZP1       PIK3R4 
 #1.168708e-09 2.556067e-06 3.804646e-06 1.950607e-05 4.790125e-05 
 
 
 sort(browndir_merged)[1:5]
-
 #       ACTN4        PPIL1        NELFE        LUZP1        ITGB2 
 #1.168708e-09 2.556067e-06 3.804646e-06 1.950607e-05 7.920157e-05 
-
 ```
 To assess the impact of the directional penalty on gene merged P-value signals we create a plot showing directional results on the y axis and non-directional results on the x. Green dots are prioritized hits, red dots are penalized. 
 
@@ -213,18 +208,14 @@ To assess the impact of the directional penalty on gene merged P-value signals w
 To explore the impact of these gene-level changes on the biological pathways they influence, we compare our results with and without a directional penalty.
 
 ```R 
-
 fname_GMT2 <- system.file("extdata", "hsapiens_REAC_subset2.gmt", package = "ActivePathways")
 
 # Package default: no directionality
-
 res_brown <- ActivePathways(scores3, merge_method = "Brown", gmt = fname_GMT2,cytoscape_file_tag = "Original_")
 
 # Added feature: incorporating directionality
-
 res_browndir <- ActivePathways(scores3, merge_method = "Brown", gmt = fname_GMT2, cytoscape_file_tag = "Directional_",
-                               scores_direction = scores_direction, expected_direction = expected_direction)
-                                                            
+                               scores_direction = scores_direction, expected_direction = expected_direction)               
 ```
 To compare the changes in biological pathways before and after incorporating directionality, we combine both outputs into a single enrichment map for [plotting](#visualizing-directional-impact-with-node-borders).
 
