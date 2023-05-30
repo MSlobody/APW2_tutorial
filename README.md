@@ -218,11 +218,11 @@ fname_GMT2 <- system.file("extdata", "hsapiens_REAC_subset2.gmt", package = "Act
 
 # Package default: no directionality
 
-res_brown <- ActivePathways(scores, merge_method = "Brown", gmt = fname_GMT,cytoscape_file_tag = "Original_")
+res_brown <- ActivePathways(scores3, merge_method = "Brown", gmt = fname_GMT2,cytoscape_file_tag = "Original_")
 
 # Added feature: incorporating directionality
 
-res_browndir <- ActivePathways(scores, merge_method = "Brown", gmt = fname_GMT, cytoscape_file_tag = "Directional_",
+res_browndir <- ActivePathways(scores3, merge_method = "Brown", gmt = fname_GMT2, cytoscape_file_tag = "Directional_",
                                scores_direction = scores_direction, expected_direction = expected_direction)
                                                             
 ```
