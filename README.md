@@ -206,7 +206,8 @@ sort(browndir_merged)[1:5]
 
 ```
 To assess the impact of the directional penalty on gene merged P-value signals we create a plot showing directional results on the y axis and non-directional results on the x. Green dots are prioritized hits, red dots are penalized. 
-![](https://github.com/MSlobody/APW2_tutorial/blob/main/lineplot_tutorial.jpeg)
+
+<img src="https://github.com/MSlobody/APW2_tutorial/blob/main/lineplot_tutorial.jpeg" width="300" /> 
 
 ## Pathway-level insight
 To explore the impact of these gene-level changes on the biological pathways they influence, we compare our results with and without a directional penalty.
